@@ -521,7 +521,7 @@
     flex-wrap: wrap;
   }
   
-  .footer__logo { height: 24px; width: auto; display: block; }
+  .footer__logo { height: 36px; width: auto; display: block; }
   .footer__meta { color: rgba(11, 15, 14, 0.60); font-weight: 700; font-size: 13px; }
   .sep { margin: 0 8px; color: rgba(11, 15, 14, 0.30); }
   
