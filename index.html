@@ -90,20 +90,16 @@
       /* Footer bar */
       .footer {
         position: relative;
-        z-index: 1;
-        align-self: center;
-        display: inline-flex;
+        display: flex;
+        justify-content: space-between;
         align-items: center;
-        gap: 1rem;
-        padding: 0.6rem 1.5rem;
-        margin-bottom: 1.5rem;
-        background: rgba(255, 255, 255, 0.18);
-        backdrop-filter: blur(24px) saturate(200%);
-        -webkit-backdrop-filter: blur(24px) saturate(200%);
-        border: 1px solid rgba(255, 255, 255, 0.35);
+        padding: 0.75rem 1.75rem;
+        margin: 0 1.5rem 1.5rem;
+        background: rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.32);
         border-radius: 14px;
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.4);
       }
 
       .brand {
@@ -201,9 +197,8 @@
         }
 
         .footer {
-          flex-direction: column;
-          gap: 1.25rem;
-          padding: 1.5rem;
+          margin: 0 0.75rem 0.75rem;
+          padding: 0.65rem 1.25rem;
         }
       }
     </style>
