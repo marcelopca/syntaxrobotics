@@ -106,12 +106,38 @@
 
       .brand__logo {
         height: 2rem;
-        /* Black-on-white PNG → invert to white-on-black, screen blend removes black bg */
-        filter: invert(1);
-        mix-blend-mode: screen;
+        mix-blend-mode: multiply;
       }
 
-      .contact-btn {
+      .login-form {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .login-input {
+        padding: 0.65rem 1rem;
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        border-radius: 6px;
+        background: rgba(0, 0, 0, 0.15);
+        color: #fff;
+        font-family: inherit;
+        font-size: 0.9375rem;
+        outline: none;
+        transition: border-color 0.16s ease, background 0.16s ease;
+        width: 10rem;
+      }
+
+      .login-input::placeholder {
+        color: rgba(255, 255, 255, 0.55);
+      }
+
+      .login-input:focus {
+        border-color: #fff;
+        background: rgba(0, 0, 0, 0.22);
+      }
+
+      .login-btn {
         display: inline-flex;
         align-items: center;
         padding: 0.65rem 1.75rem;
@@ -123,13 +149,12 @@
         font-size: 0.9375rem;
         font-weight: 700;
         letter-spacing: 0.01em;
-        text-decoration: none;
         cursor: pointer;
         transition: background 0.16s ease, border-color 0.16s ease;
       }
 
-      .contact-btn:hover,
-      .contact-btn:focus-visible {
+      .login-btn:hover,
+      .login-btn:focus-visible {
         background: rgba(255, 255, 255, 0.12);
         border-color: #fff;
         outline: none;
@@ -190,12 +215,16 @@
               alt="Syntax Robotic Palletizer"
             />
           </picture>
-          <a
-            class="contact-btn"
-            href="mailto:marcelo@syntaxrobotics.com?subject=More%20Information%20Request&body=Hi%20Syntax%20team%2C%0A%0APlease%20send%20me%20more%20information%20about%20your%20robots%20as%20a%20service%20offering.%0A%0AThanks%2C"
-          >
-            Contact us
-          </a>
+          <form class="login-form" onsubmit="return false;">
+            <input
+              class="login-input"
+              type="text"
+              name="username"
+              placeholder="Username"
+              autocomplete="username"
+            />
+            <button class="login-btn" type="submit">Login</button>
+          </form>
         </div>
 
         <p class="headline headline--right">from day one.</p>
