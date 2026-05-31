@@ -167,7 +167,7 @@
       }
 
       .auth-error {
-        display: none;
+        display: inline-flex;
         align-items: center;
         padding: 0.35rem 1rem;
         margin-top: 0.5rem;
@@ -180,18 +180,17 @@
         font-size: 0.8125rem;
         font-weight: 600;
         letter-spacing: 0.01em;
+        visibility: hidden;
         opacity: 0;
         transform: translateY(-4px);
-        transition: opacity 0.2s ease, transform 0.2s ease;
-      }
-
-      .auth-error.visible {
-        display: inline-flex;
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s 0.2s;
       }
 
       .auth-error.show {
+        visibility: visible;
         opacity: 1;
         transform: translateY(0);
+        transition: opacity 0.2s ease, transform 0.2s ease;
       }
 
       /* ── Responsive ─────────────────────────────── */
@@ -277,16 +276,11 @@
       const input = document.querySelector('.login-input');
       const error = document.getElementById('auth-error');
       if (!input.value.trim()) return;
-      error.classList.add('visible');
-      requestAnimationFrame(() => error.classList.add('show'));
+      error.classList.add('show');
     }
 
     document.querySelector('.login-input').addEventListener('input', function () {
-      const error = document.getElementById('auth-error');
-      if (error.classList.contains('show')) {
-        error.classList.remove('show');
-        setTimeout(() => error.classList.remove('visible'), 200);
-      }
+      document.getElementById('auth-error').classList.remove('show');
     });
   </script>
   </body>
