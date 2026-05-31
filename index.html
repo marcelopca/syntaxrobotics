@@ -166,6 +166,34 @@
         outline: none;
       }
 
+      .auth-error {
+        display: none;
+        align-items: center;
+        padding: 0.35rem 1rem;
+        margin-top: 0.5rem;
+        background: rgba(255, 255, 255, 0.13);
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 9999px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        color: #fff;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        opacity: 0;
+        transform: translateY(-4px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+
+      .auth-error.visible {
+        display: inline-flex;
+      }
+
+      .auth-error.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
       /* ── Responsive ─────────────────────────────── */
       @media (max-width: 760px) {
         html, body {
@@ -220,7 +248,7 @@
               alt="Syntax Robotic Palletizer"
             />
           </picture>
-          <form class="login-form" onsubmit="return false;">
+          <form class="login-form" onsubmit="handleLogin(event);">
             <input
               class="login-input"
               type="text"
@@ -230,6 +258,7 @@
             />
             <button class="login-btn" type="submit">Login</button>
           </form>
+          <div class="auth-error" id="auth-error">User not authorized</div>
         </div>
 
         <p class="headline headline--right">from day one.</p>
@@ -242,5 +271,23 @@
       </footer>
 
     </div>
+  <script>
+    function handleLogin(e) {
+      e.preventDefault();
+      const input = document.querySelector('.login-input');
+      const error = document.getElementById('auth-error');
+      if (!input.value.trim()) return;
+      error.classList.add('visible');
+      requestAnimationFrame(() => error.classList.add('show'));
+    }
+
+    document.querySelector('.login-input').addEventListener('input', function () {
+      const error = document.getElementById('auth-error');
+      if (error.classList.contains('show')) {
+        error.classList.remove('show');
+        setTimeout(() => error.classList.remove('visible'), 200);
+      }
+    });
+  </script>
   </body>
 </html>
