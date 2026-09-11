@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Syntax® Robot Wrapper — SRW-001</title>
+    <meta name="description" content="Self Propelling Robot for Plastic Wrapping. Zero-maintenance battery, automatic film cutting, 2.20m max product height." />
+    <meta name="theme-color" content="#078244" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" href="assets/syntax_2.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --green: #078244;
+        --green-bright: #14a44d;
+        --green-deep: #0a3d24;
+        --ink: #16191c;
+        --muted: #5c6570;
+        --line: #e6e8ec;
+        --bg: #f3f4f6;
+        --card: #ffffff;
+        --shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 12px 32px rgba(16, 24, 40, 0.07);
+        --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05), 0 6px 18px rgba(16, 24, 40, 0.06);
+        --radius: 22px;
+        --radius-sm: 16px;
+        --maxw: 1180px;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.5;
+      }
+
+      img { max-width: 100%; display: block; }
+
+      .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--green);
+      }
+      .eyebrow::before {
+        content: '';
+        width: 26px; height: 2px;
+        background: var(--green);
+        border-radius: 2px;
+      }
+
+      /* ── Header ─────────────────────────────── */
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(255, 255, 255, 0.82);
+        backdrop-filter: saturate(180%) blur(14px);
+        -webkit-backdrop-filter: saturate(180%) blur(14px);
+        border-bottom: 1px solid var(--line);
+      }
+      .site-header__inner {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+      .brand__mark { height: 30px; width: auto; }
+      .brand__name { font-weight: 800; font-size: 1.05rem; letter-spacing: -0.02em; color: var(--ink); }
+      .header-right { display: flex; align-items: center; gap: 14px; }
+      .model-pill {
+        font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em;
+        color: var(--green); background: rgba(7, 130, 68, 0.08);
+        border: 1px solid rgba(7, 130, 68, 0.18);
+        padding: 6px 12px; border-radius: 9999px;
+      }
+      .exit-link {
+        font-size: 0.85rem; font-weight: 600; color: var(--muted);
+        text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+        transition: color 0.15s ease;
+      }
+      .exit-link:hover { color: var(--ink); }
+
+      /* ── Hero ─────────────────────────────── */
+      .hero { position: relative; overflow: hidden; background: #fff; }
+      .hero__inner {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 72px 24px 64px;
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 40px;
+        align-items: center;
+      }
+      .hero__title {
+        font-size: clamp(2.6rem, 5.2vw, 4.1rem);
+        font-weight: 900;
+        letter-spacing: -0.035em;
+        line-height: 0.98;
+        margin: 18px 0 0;
+      }
+      .hero__title .accent { color: var(--green); display: block; }
+      .hero__sub {
+        font-size: clamp(1.15rem, 2.1vw, 1.5rem);
+        font-weight: 600;
+        color: var(--muted);
+        margin-top: 18px;
+        max-width: 26ch;
+        letter-spacing: -0.01em;
+      }
+      .feature-list { margin-top: 34px; display: flex; flex-direction: column; gap: 2px; }
+      .feature-row {
+        display: flex; align-items: center; gap: 16px;
+        padding: 16px 0;
+        border-top: 1px solid var(--line);
+      }
+      .feature-row:last-child { border-bottom: 1px solid var(--line); }
+      .feature-ico {
+        flex: 0 0 auto;
+        width: 46px; height: 46px;
+        display: grid; place-items: center;
+        background: #f2f4f6; border-radius: 12px;
+        color: var(--green);
+      }
+      .feature-ico svg { width: 24px; height: 24px; }
+      .feature-txt { font-size: 1rem; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+
+      .hero__media { position: relative; align-self: stretch; display: flex; align-items: center; justify-content: center; min-height: 420px; }
+      .hero__stripes {
+        position: absolute; inset: 0; z-index: 0;
+        overflow: hidden; border-radius: var(--radius);
+      }
+      .hero__stripes::before {
+        content: ''; position: absolute; top: -10%; right: -6%; width: 62%; height: 120%;
+        background: repeating-linear-gradient(
+          to right,
+          var(--green-bright) 0 3px,
+          transparent 3px 15px
+        );
+        opacity: 0.5;
+        -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent);
+                mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent);
+      }
+      .hero__stripes::after {
+        content: ''; position: absolute; bottom: 6%; left: -10%; width: 78%; height: 46%;
+        background: repeating-linear-gradient(
+          to bottom,
+          var(--green-bright) 0 3px,
+          transparent 3px 16px
+        );
+        opacity: 0.34;
+        -webkit-mask-image: linear-gradient(to right, transparent, #000 30%, #000 70%, transparent);
+                mask-image: linear-gradient(to right, transparent, #000 30%, #000 70%, transparent);
+      }
+      .hero__robot {
+        position: relative; z-index: 1;
+        max-height: 560px; width: auto; margin: 0 auto;
+        filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.2));
+      }
+      .srw-badge {
+        position: absolute; top: 8px; right: 6px; z-index: 2;
+        writing-mode: vertical-rl;
+        font-size: 0.9rem; font-weight: 800; letter-spacing: 0.34em;
+        color: var(--green);
+      }
+
+      /* ── Section scaffolding ─────────────────────────────── */
+      section { position: relative; }
+      .section { padding: 84px 0; }
+      .section--tint { background: var(--bg); }
+      .section-head { max-width: 620px; margin-bottom: 44px; }
+      .section-head h2 {
+        font-size: clamp(1.9rem, 3.6vw, 2.7rem);
+        font-weight: 800; letter-spacing: -0.03em; line-height: 1.05;
+        margin-top: 14px;
+      }
+      .section-head p { color: var(--muted); font-size: 1.08rem; margin-top: 14px; }
+
+      /* ── Feature cards (page 2) ─────────────────────────────── */
+      .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+      .card {
+        background: var(--card); border-radius: var(--radius);
+        box-shadow: var(--shadow); overflow: hidden;
+        display: flex; flex-direction: column;
+        border: 1px solid rgba(16, 24, 40, 0.04);
+      }
+      .card__media {
+        aspect-ratio: 4 / 3; background: #fbfbfc;
+        display: flex; align-items: center; justify-content: center; overflow: hidden;
+      }
+      .card__media img { width: 100%; height: 100%; object-fit: cover; }
+      .card__body { padding: 26px 26px 30px; }
+      .card__body h3 { color: var(--green); font-size: 1.22rem; font-weight: 800; letter-spacing: -0.02em; }
+      .card__body p { color: var(--muted); margin-top: 12px; font-size: 0.98rem; }
+      .card__body p + p { margin-top: 10px; }
+      .footnote { color: var(--muted); font-size: 0.85rem; margin-top: 22px; font-style: italic; }
+
+      /* ── Film carriage mosaic (page 3) ─────────────────────────────── */
+      .mosaic { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+      .fn {
+        background: var(--card); border-radius: var(--radius-sm);
+        box-shadow: var(--shadow-sm); padding: 26px;
+        border: 1px solid rgba(16, 24, 40, 0.04);
+        display: flex; flex-direction: column; gap: 16px;
+      }
+      .fn__img { height: 150px; display: flex; align-items: center; justify-content: center; }
+      .fn__img img { max-height: 150px; width: auto; object-fit: contain; }
+      .fn h3 { font-size: 1.06rem; font-weight: 800; color: var(--ink); letter-spacing: -0.01em; }
+      .fn p { color: var(--muted); font-size: 0.94rem; margin-top: 6px; }
+      .fn--wide { grid-column: span 1; }
+
+      .fn--hl {
+        background: var(--green-deep);
+        color: #fff; position: relative; overflow: hidden;
+        align-items: center; justify-content: center; text-align: center;
+        min-height: 240px;
+      }
+      .fn--hl svg.swirl { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.5; }
+      .fn--hl .hl-inner { position: relative; z-index: 1; }
+      .fn--hl .hl-top { font-size: 1.1rem; font-weight: 700; opacity: 0.92; }
+      .fn--hl .hl-big { font-size: 4.2rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; margin: 4px 0; }
+      .fn--hl .hl-sub { font-size: 1.25rem; font-weight: 700; }
+
+      /* ── Specs table (page 4) ─────────────────────────────── */
+      .spec-shell {
+        background: var(--card); border-radius: var(--radius);
+        box-shadow: var(--shadow); overflow: hidden;
+        border: 1px solid rgba(16, 24, 40, 0.04);
+      }
+      .spec-scroll { overflow-x: auto; }
+      table.spec { width: 100%; border-collapse: collapse; min-width: 720px; }
+      table.spec thead th {
+        text-align: left; padding: 26px 26px 22px; vertical-align: bottom;
+        border-bottom: 2px solid var(--line);
+      }
+      table.spec thead th:first-child { width: 32%; }
+      .col-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+      .model-name { font-size: 1.25rem; font-weight: 800; color: var(--green); letter-spacing: -0.02em; }
+      .model-price { font-size: 1.05rem; font-weight: 800; color: var(--ink); margin-top: 2px; }
+      table.spec tbody th {
+        text-align: left; font-weight: 600; color: var(--ink);
+        padding: 15px 26px; font-size: 0.95rem; vertical-align: top;
+      }
+      table.spec tbody td {
+        padding: 15px 26px; color: var(--muted); font-size: 0.95rem; vertical-align: top;
+      }
+      table.spec tbody tr:nth-child(odd) { background: #fafbfc; }
+      table.spec tbody tr + tr th, table.spec tbody tr + tr td { border-top: 1px solid var(--line); }
+      .tag-std { display: inline-block; font-weight: 700; color: var(--green); }
+
+      .drawings {
+        margin-top: 30px; background: var(--card); border-radius: var(--radius);
+        box-shadow: var(--shadow); padding: 30px; border: 1px solid rgba(16, 24, 40, 0.04);
+      }
+      .drawings .col-label { display: block; margin-bottom: 16px; }
+
+      /* ── CTA / footer ─────────────────────────────── */
+      .cta {
+        background: linear-gradient(135deg, var(--green) 0%, #0a6e3b 100%);
+        color: #fff; border-radius: var(--radius);
+        padding: 56px; text-align: center; position: relative; overflow: hidden;
+      }
+      .cta h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: -0.03em; }
+      .cta p { margin-top: 12px; opacity: 0.9; font-size: 1.08rem; }
+      .cta__actions { margin-top: 28px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+      .btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 14px 26px; border-radius: 10px; font-weight: 700; font-size: 0.98rem;
+        text-decoration: none; transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease;
+      }
+      .btn--light { background: #fff; color: var(--green); box-shadow: 0 8px 20px rgba(0,0,0,0.14); }
+      .btn--light:hover { transform: translateY(-2px); }
+      .btn--ghost { background: rgba(255,255,255,0.12); color: #fff; border: 1.5px solid rgba(255,255,255,0.5); }
+      .btn--ghost:hover { background: rgba(255,255,255,0.2); }
+
+      .site-footer {
+        padding: 40px 0; border-top: 1px solid var(--line); margin-top: 0;
+        display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      }
+      .site-footer .brand__name { color: var(--muted); font-weight: 700; }
+      .site-footer small { color: var(--muted); font-size: 0.85rem; }
+
+      /* ── Responsive ─────────────────────────────── */
+      @media (max-width: 900px) {
+        .hero__inner { grid-template-columns: 1fr; gap: 8px; padding-top: 48px; }
+        .hero__media { order: -1; min-height: 340px; }
+        .hero__robot { max-height: 380px; }
+        .cards { grid-template-columns: 1fr; }
+        .mosaic { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 620px) {
+        .wrap { padding: 0 18px; }
+        .section { padding: 60px 0; }
+        .mosaic { grid-template-columns: 1fr; }
+        .brand__name { display: none; }
+        .cta { padding: 40px 24px; }
+        .header-right .model-pill { display: none; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ── Access guard ─────────────────────────────── -->
+    <script>
+      (function () {
+        var ok = false;
+        try { ok = !!sessionStorage.getItem('sr_auth'); } catch (e) { ok = false; }
+        if (!ok) { window.location.replace('index.html'); }
+      })();
+    </script>
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="#top" aria-label="Syntax Robotics">
+          <img class="brand__mark" src="assets/syntax_2.png" alt="" />
+          <span class="brand__name">Syntax Robotics</span>
+        </a>
+        <div class="header-right">
+          <span class="model-pill">SRW-001</span>
+          <a class="exit-link" href="#" id="exit">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Exit
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Hero ─────────────────────────────── -->
+    <section class="hero" id="top">
+      <div class="hero__inner">
+        <div class="hero__copy">
+          <span class="eyebrow">Syntax® Robot Wrapper</span>
+          <h1 class="hero__title">Syntax<sup style="font-size:0.4em;top:-0.9em;position:relative;">®</sup><span class="accent">Robot Wrapper</span></h1>
+          <p class="hero__sub">Self Propelling Robot for Plastic Wrapping</p>
+
+          <div class="feature-list">
+            <div class="feature-row">
+              <span class="feature-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="16" height="10" rx="2"/><line x1="22" y1="11" x2="22" y2="13"/><path d="M11 10l-2 4h3l-2 3" stroke-width="1.6"/></svg>
+              </span>
+              <span class="feature-txt">Zero-maintenance battery with Rapid Swap Technology</span>
+            </div>
+            <div class="feature-row">
+              <span class="feature-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+              </span>
+              <span class="feature-txt">Automatic film cutting</span>
+            </div>
+            <div class="feature-row">
+              <span class="feature-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="3" x2="12" y2="21"/><polyline points="8 7 12 3 16 7"/><polyline points="8 17 12 21 16 17"/></svg>
+              </span>
+              <span class="feature-txt">2.20&nbsp;m maximum product height</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__media">
+          <div class="hero__stripes" aria-hidden="true"></div>
+          <span class="srw-badge">SRW-001</span>
+          <img class="hero__robot" src="assets/brochure/hero.png" alt="Syntax Robot Wrapper SRW-001" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Key features (page 2) ─────────────────────────────── -->
+    <section class="section section--tint">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Built for the floor</span>
+          <h2>Simple to run. Safe by design.</h2>
+          <p>Everything an operator needs to wrap pallets reliably, shift after shift.</p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="card__media"><img src="assets/brochure/ui.jpg" alt="Intuitive touchscreen interface" /></div>
+            <div class="card__body">
+              <h3>Intuitive User Interface</h3>
+              <p>Simple interface to guide new operators on how to use the machine.</p>
+              <p>Designed to be easy to learn in minutes—not hours.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__media"><img src="assets/brochure/safety.jpg" alt="Safety lights and sensors" /></div>
+            <div class="card__body">
+              <h3>Safety-first Design</h3>
+              <p>Safety lights and sensor indicate safe operating areas without physical contact.</p>
+              <p>Mechanical safety stop in the presence of any obstacle.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__media"><img src="assets/brochure/battery.jpg" alt="Quick swap battery cart" /></div>
+            <div class="card__body">
+              <h3>Syntax Quick Swap Technology<sup>*</sup></h3>
+              <p>Our battery swap cart enables continuous robot operation on long shifts.</p>
+              <p>Swap unit batteries in 60 seconds or less.</p>
+            </div>
+          </article>
+        </div>
+        <p class="footnote">*Optional feature upon request</p>
+      </div>
+    </section>
+
+    <!-- ── Film carriage functions (page 3) ─────────────────────────────── -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Film carriage</span>
+          <h2>Available Film Carriage Functions</h2>
+          <p>Optimal solutions for high-efficiency pallet wrapping and enhanced load stability.</p>
+        </div>
+
+        <div class="mosaic">
+          <div class="fn">
+            <div class="fn__img"><img src="assets/brochure/fn-roping.jpg" alt="Automatic film roping system" /></div>
+            <div>
+              <h3>Automatic Film Roping System</h3>
+              <p>The electronic drive system allows the film to be positioned at the top or bottom as a rope, instead of a horizontal strapping machine, enabling better product integration.</p>
+            </div>
+          </div>
+
+          <div class="fn fn--hl">
+            <svg class="swirl" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <g fill="none" stroke="#26d06a" stroke-width="1.4">
+                <path d="M-40 220 Q60 120 40 20" opacity="0.5"/>
+                <path d="M-20 230 Q80 130 60 20" opacity="0.55"/>
+                <path d="M0 240 Q100 140 80 20" opacity="0.6"/>
+                <path d="M20 250 Q120 150 100 30" opacity="0.6"/>
+                <path d="M40 255 Q140 160 120 40" opacity="0.55"/>
+                <path d="M60 258 Q160 170 145 55" opacity="0.5"/>
+                <path d="M90 260 Q190 180 175 70" opacity="0.45"/>
+              </g>
+            </svg>
+            <div class="hl-inner">
+              <div class="hl-top">Achieves</div>
+              <div class="hl-big">100%</div>
+              <div class="hl-sub">Film Consumption</div>
+            </div>
+          </div>
+
+          <div class="fn">
+            <div class="fn__img"><img src="assets/brochure/fn-750.jpg" alt="750mm film roll" /></div>
+            <div>
+              <h3>Compatible with 750mm film</h3>
+              <p>Optimal solution for high-efficiency pallet wrapping and enhanced load stability.</p>
+            </div>
+          </div>
+
+          <div class="fn">
+            <div class="fn__img"><img src="assets/brochure/fn-coreless.jpg" alt="Coreless film mandrel" /></div>
+            <div>
+              <h3>Coreless Film</h3>
+              <p>Film carriage can be fitted with a coreless mandrel. Achieves 100% film consumption.</p>
+            </div>
+          </div>
+
+          <div class="fn">
+            <div class="fn__img"><img src="assets/brochure/fn-mech.jpg" alt="Mechanical stretch brake" /></div>
+            <div>
+              <h3>Mechanical Stretch</h3>
+              <p>Film carriage with mechanical brake, manually adjustable to set film tensioning. New switch-brake design makes it easier to adjust film tension.</p>
+            </div>
+          </div>
+
+          <div class="fn">
+            <div class="fn__img"><img src="assets/brochure/fn-prestretch.jpg" alt="Variable pre-stretch rollers" /></div>
+            <div>
+              <h3>Variable Pre-stretch</h3>
+              <p>Film carriage is driven by two motors to operate the pre-stretching rollers. The pre-stretching rate can be adjusted from 0% to 500% through the screen.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Configurations (page 4) ─────────────────────────────── -->
+    <section class="section section--tint">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Specifications</span>
+          <h2>Configurations</h2>
+          <p>Two models, one platform. Choose the range that fits your shift.</p>
+        </div>
+
+        <div class="spec-shell">
+          <div class="spec-scroll">
+            <table class="spec">
+              <thead>
+                <tr>
+                  <th><span class="col-label">Wrapper Models</span></th>
+                  <th><div class="model-name">Standard Model</div><div class="model-price">US$ 15,000</div></th>
+                  <th><div class="model-name">Continuous Model</div><div class="model-price">US$ 17,000</div></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th>Pallet Per Battery Charge</th><td>More than 250 pallets</td><td>60s Quick-Change Technology</td></tr>
+                <tr><th>Batteries</th><td>Zero-maintenance Battery (1 battery / robot)</td><td>Zero-maintenance Battery (2 batteries / robot + quick swap cart)</td></tr>
+                <tr><th>Maximum Wrapping Height</th><td>2.20 m (86 inches)</td><td>2.20 m (86 inches)</td></tr>
+                <tr><th>Minimum Wrapping Size (L×W)</th><td>600 × 600 mm</td><td>600 × 600 mm</td></tr>
+                <tr><th>Film Stretch</th><td>Variable pre-stretch up to 500%</td><td>Variable pre-stretch up to 500%</td></tr>
+                <tr><th>Height Detection</th><td>Automatic</td><td>Automatic</td></tr>
+                <tr><th>Machine Rotation Speed</th><td>35–100 m/min</td><td>35–100 m/min</td></tr>
+                <tr><th>Carriage Up-down Speed</th><td>1.5–6.5 m/min</td><td>1.5–6.5 m/min</td></tr>
+                <tr><th>Wrapping Speed</th><td>Adjustable</td><td>Adjustable</td></tr>
+                <tr><th>Wrapping Tension</th><td>Adjustable from Panel</td><td>Adjustable from Panel</td></tr>
+                <tr><th>Control Panel</th><td>7 Inch Touch Screen</td><td>7 Inch Touch Screen</td></tr>
+                <tr><th>Recipes in Screen</th><td>12 Recipes</td><td>12 Recipes</td></tr>
+                <tr><th>Brushless Motor</th><td><span class="tag-std">Standard</span></td><td><span class="tag-std">Standard</span></td></tr>
+                <tr><th>Automatic Film Cutting</th><td><span class="tag-std">Standard</span> (except Mechanical Stretch)</td><td><span class="tag-std">Standard</span></td></tr>
+                <tr><th>Forklift Handling</th><td>Supported</td><td>Supported</td></tr>
+                <tr><th>Maximum Film Dimension</th><td>500 × 250 mm · 750 × 200 mm (opt)</td><td>500 × 250 mm · 750 × 200 mm (opt)</td></tr>
+                <tr><th>Maximum Film Weight</th><td>20 KG</td><td>20 KG</td></tr>
+                <tr><th>Power Supply Voltage</th><td>100V–240V (1P) 50/60HZ</td><td>100V–240V (1P) 50/60HZ</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="drawings">
+          <span class="col-label">Drawing (mm)</span>
+          <img src="assets/brochure/drawings.jpg" alt="Robot Wrapper dimensional drawings" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA ─────────────────────────────── -->
+    <section class="section">
+      <div class="wrap">
+        <div class="cta">
+          <h2>Automation that pays for itself from day one.</h2>
+          <p>Bring the Syntax Robot Wrapper to your facility.</p>
+          <div class="cta__actions">
+            <a class="btn btn--light" href="mailto:info@syntaxrobotics.com?subject=Robot%20Wrapper%20SRW-001%20Inquiry">Request a demo</a>
+            <a class="btn btn--ghost" href="https://syntaxrobotics.com">Visit syntaxrobotics.com</a>
+          </div>
+        </div>
+
+        <footer class="site-footer">
+          <div class="brand">
+            <img class="brand__mark" src="assets/syntax_2.png" alt="" />
+            <span class="brand__name">Syntax Robotics · Robot Wrapper</span>
+          </div>
+          <small>Confidential — prepared for authorized review only.</small>
+        </footer>
+      </div>
+    </section>
+
+    <script>
+      document.getElementById('exit').addEventListener('click', function (e) {
+        e.preventDefault();
+        try { sessionStorage.removeItem('sr_auth'); } catch (_) {}
+        window.location.href = 'index.html';
+      });
+    </script>
+  </body>
+</html>

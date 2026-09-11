@@ -271,11 +271,22 @@
 
     </div>
   <script>
+    /* ── Access control ──────────────────────────────────────────────
+       Authorized access codes / usernames (case-insensitive).
+       Add or change entries here to grant access.                        */
+    const AUTHORIZED = ['pfgc'];
+
     function handleLogin(e) {
       e.preventDefault();
       const input = document.querySelector('.login-input');
       const error = document.getElementById('auth-error');
-      if (!input.value.trim()) return;
+      const code = input.value.trim().toLowerCase();
+      if (!code) return;
+      if (AUTHORIZED.includes(code)) {
+        try { sessionStorage.setItem('sr_auth', code); } catch (_) {}
+        window.location.href = 'brochure.html';
+        return;
+      }
       error.classList.add('show');
     }
 
