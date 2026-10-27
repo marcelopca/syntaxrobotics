@@ -95,8 +95,7 @@
       .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
       .brand__mark { height: 30px; width: auto; }
       .brand__name { font-weight: 800; font-size: 1.05rem; letter-spacing: -0.02em; color: var(--ink); }
-      .header-right { display: flex; align-items: center; gap: 14px; }
-      .model-pill {
+      .header-right { display: flex; align-items: center; gap: 14px; }      .model-pill {
         font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em;
         color: var(--green); background: rgba(7, 130, 68, 0.08);
         border: 1px solid rgba(7, 130, 68, 0.18);
@@ -278,6 +277,16 @@
       .cta__actions { margin-top: 28px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
       .cta__email { margin-top: 16px; font-size: 0.92rem; opacity: 0.85; }
       .cta__email a { color: #fff; }
+      #contact { scroll-margin-top: 80px; }
+
+      .toast {
+        position: fixed; left: 50%; bottom: 28px; z-index: 100;
+        transform: translate(-50%, 16px); opacity: 0; pointer-events: none;
+        background: var(--ink); color: #fff; font-weight: 600; font-size: 0.95rem;
+        padding: 12px 20px; border-radius: 9999px; white-space: nowrap; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        transition: opacity 0.2s, transform 0.2s;
+      }
+      .toast.is-on { opacity: 1; transform: translate(-50%, 0); }
 
       .site-footer {
         padding: 40px 0;
@@ -327,10 +336,10 @@
       <div class="hero__inner">
         <div class="hero__copy">
           <span class="eyebrow">Syntax Production Intelligence</span>
-          <h1 class="hero__title">Every line<br><span class="accent">live</span> all the time.</h1>
+          <h1 class="hero__title">Every line, <span class="accent">live,</span><br>all the time.</h1>
           <p class="hero__sub">OEE, monitoring, analytics, and control custom-built for your plant floor.</p>
           <div class="hero__actions">
-            <a class="btn btn--green" href="mailto:michael@syntaxrobotics.com">Request a free pilot</a>
+            <a class="btn btn--green" href="#contact">Request a free pilot</a>
             <a class="btn btn--outline" href="#what">What it does</a>
           </div>
         </div>
@@ -449,8 +458,7 @@
           <h2>Start with one line.</h2>
           <p>Pilot Production Intelligence on a single line and see your real numbers.</p>
           <div class="cta__actions">
-            <a class="btn btn--light" href="mailto:michael@syntaxrobotics.com">Request a free pilot</a>
-          </div>
+            <a class="btn btn--light" href="mailto:michael@syntaxrobotics.com">Request a free pilot</a>          </div>
           <p class="cta__email">or email <a href="mailto:michael@syntaxrobotics.com">michael@syntaxrobotics.com</a></p>
         </div>
 
@@ -461,5 +469,34 @@
           </a>        </footer>
       </div>
     </section>
+
+    <div class="toast" role="status" aria-live="polite"></div>
+    <script>
+      // mailto does nothing for visitors without a mail app, so every email
+      // link also puts the address on the clipboard.
+      const EMAIL = 'michael@syntaxrobotics.com';
+      const toast = document.querySelector('.toast');
+      let toastTimer;
+
+      function copyEmail() {
+        const show = (msg) => {
+          toast.textContent = msg;
+          toast.classList.add('is-on');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => toast.classList.remove('is-on'), 3200);
+        };
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(EMAIL)
+            .then(() => show('Copied ' + EMAIL))
+            .catch(() => show('Email ' + EMAIL));
+        } else {
+          show('Email ' + EMAIL);
+        }
+      }
+
+      document.querySelectorAll('a[href^="mailto:"]').forEach((el) => {
+        el.addEventListener('click', copyEmail);
+      });
+    </script>
   </body>
 </html>
